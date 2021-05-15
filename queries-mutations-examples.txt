@@ -1,0 +1,102 @@
+query Persons {
+  personQuery {
+    persons {
+      id
+      givenName
+      surname
+      affiliations {
+        organization {
+          name
+          parent {
+            name
+          }
+        }
+        role {
+          name
+        }
+      }
+      relations {
+        p2 {
+          givenName
+          surname
+        }
+        kind
+        notes
+      }
+    }
+  }
+}
+
+query PersonById {
+  personByIdQuery {
+    personById(id: 1) {
+	  id
+	  givenName
+      surname
+      relations {
+        p2 {
+          id
+	      givenName
+          surname
+        }
+        kind
+      }
+      affiliations {
+        organization {
+          name
+        }
+        role {
+          name
+        }
+      }
+    }
+  }
+}
+
+query Organizations {
+  organizationQuery {
+    organizations {
+      id
+      name
+      parent {
+        id
+        name
+      }
+    }
+  }
+}
+
+mutation PersonMutation {
+  personMutation {
+    createPersons(
+      personsInput: [
+        {
+          givenName: "Vasya"
+          surname: "Pupkin"
+          born: 1990
+          phone: "111-222-333"
+          email: "vpupkin@ua.com"
+          address: "21, Torn Street"
+          affiliations: [{ since: 2000, organizationId: -4, roleId: -1 }]
+          relations: [{ since: 2017, kind: "friend", notes: "*!", p2Id: -1 }]
+        }
+        {
+          givenName: "Antony"
+          surname: "Fields"
+          born: 1995
+          phone: "123-122-331"
+          email: "afields@ua.com"
+          address: "30, Torn Street"
+          affiliations: [{ since: 2015, organizationId: -3, roleId: -1 }]
+          relations: [
+            { since: 2017, kind: "friend", notes: "*!", p2Id: -2 }
+            { since: 2017, kind: "friend", notes: "*!", p2Id: 1 }
+          ]
+        }
+      ]
+    ) {
+      status
+      message
+    }
+  }
+}
